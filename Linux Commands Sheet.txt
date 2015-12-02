@@ -1,0 +1,338 @@
+#File Commands
+----------------------------------------
+
+#ls Options
+-a Show all (including hidden)
+-R Recursive list
+-r Reverse order
+-t Sort by last modified
+-S Sort by file size
+-l Long listing format
+-1 One file per line
+-m Comma-­sep­arated output
+-Q Quoted output
+
+#directory listing
+$ls
+
+#formatted listing with hidden files
+$ls -al
+
+#change directory to dir
+cd dir
+
+#change to home
+$cd
+
+#show current directory
+$pwd
+
+#create a directory dir
+$mkdir dir
+
+#delete file
+$rm file
+
+#delete directory dir
+$rm -r dir
+
+#force remove file
+$rm -f file
+
+#force remove directory dir
+$rm -rf dir
+
+#copy file1 to file2
+$cp file1 file2
+
+#copy dir1 to dir2; create dir2 if it doesn't exist
+$cp -r dir1 dir2
+
+#rename or move file1 to file2 if file2 is an existing directory, moves file1 into directory file2
+$mv file1 file2
+
+#create symbolic link link to file
+$ln -s file link
+
+#create file
+$touch file
+
+#places standard input into file
+$cat > file
+
+#output the contents of file
+$more file
+
+#output the first 10 lines of file
+$head file
+
+#output the last 10 lines of file
+$tail file
+
+#output the contents of file as it grows, starting with the last 10 lines
+$tail -f file
+ 
+#Process Management
+----------------------------------------
+#display your currently active processes
+$ps
+
+#display all running processes
+$top
+
+#kill process id pid
+$kill pid
+
+#kill all processes named proc
+$killall proc
+
+#lists stopped or background jobs; resume a stopped job in the background
+$bg
+
+#brings the most recent job to foreground
+$fg
+
+#brings job n to the foreground
+$fg n
+
+#File Permissions
+----------------------------------------
+#change the permissions of file to octal, which can be found separately for user, group, and world by adding:
+4 – read (r)
+2 – write (w)
+1 – execute (x)
+
+#First digit is owner permission, second is group and third is everyone.Calculate permission digits by adding numbers below.
+4 – read (r)
+2 – write (w)
+1 – execute (x)
+
+$chmod octal file
+
+#read, write, execute for all
+$chmod 777
+
+#rwx for owner, rx for group and world
+$chmod 755
+
+#read, write, execute for a file
+$chmod 777 file
+
+#Recursively chmod folder to 600
+$chmod -R 600 folder
+
+#Change file owner to user and group to group
+$chown user:group file
+
+#SSH
+----------------------------------------
+
+#connect to host as user
+$ssh user@host
+
+#connect to host on port port as user
+$ssh -p port user@host
+
+#add your key to host for user to enable a keyed or passwordless login
+$ssh-copy-id user@host
+
+#Searching
+----------------------------------------
+
+#search for pattern in files
+$grep pattern files
+
+#Case insensitive search
+$grep -i
+
+#Show matched part of file only
+grep -o
+
+#search recursively for pattern in dir
+$grep -r
+
+#search for pattern in the output of command
+$command | grep pattern
+
+#find all instances of file
+$locate file 
+
+#Find files starting with name in dir
+$find /dir/ -name name*
+
+#Find files owned by name in dir
+$find /dir/ -user name
+
+#Find binary / source / manual for command
+$whereis command
+
+#Bash Variables
+----------------------------------------
+
+#Show enviro­nment variables
+$ $env
+
+#Output value of $NAME variable
+$ echo $NAME
+
+#Set $NAME to value $PATH
+$ $export NAME=value
+
+#Executable search path
+$ $PATH
+
+#Home directory
+$ $HOME
+
+#Current shell
+$ $SHELL
+
+#System Info
+----------------------------------------
+
+#show the current date and time
+$date
+
+#show this month's calendar
+$cal
+
+#show current uptime
+$uptime
+
+#display who is online
+w
+
+#who you are logged in as
+$whoami
+
+#display information about user
+$finger user
+
+#show kernel information
+uname -a
+
+#cpu information
+$cat /proc/cpuinfo
+
+#memory information
+$cat /proc/meminfo
+
+#show the manual for command
+$man command
+
+#show disk usage
+$df
+
+#show directory space usage
+$du
+
+#show memory and swap usage
+$free
+
+#show possible locations of app
+$whereis app
+
+#show which app will be run by default
+$which app
+
+
+#Compression
+----------------------------------------
+
+#create a tar named file.tar containing files
+$tar cf file.tar files 
+
+#extract the files from file.tar
+$tar xf file.tar
+
+#create a tar with Gzip compression
+$tar czf file.tar.gz files
+
+#extract a tar using Gzip
+tar xzf file.tar.gz
+
+#create a tar with Bzip2 compression
+$tar cjf file.tar.bz2
+
+#extract a tar using Bzip2 gzip file
+$tar xjf file.tar.bz2
+
+#compresses file and renames it to file.gz
+$gzip file
+
+#decompresses file.gz back to file
+$gzip -d file.gz
+
+#Network
+----------------------------------------
+
+#ping host and output results
+$ping host
+
+#get whois information for domain
+$whois domain
+
+#get DNS information for domain
+$dig domain
+
+#reverse lookup host
+$dig -x host
+
+#download file
+$wget file
+
+#continue a stopped download
+$wget -c file
+
+#show running services
+$service --status-all
+
+#stop service-name service
+$service service-name stop
+
+#start service-name service
+$service service-name start
+
+#restart service-name service
+$service service-name restart
+
+#stop,start,restart service-name using path
+$/etc/init.d/service-name start
+
+#Installation
+----------------------------------------
+
+#Install from source
+$./configure
+$make
+$make install
+
+#install a package (Debian)
+$dpkg -i pkg.deb
+
+#install a package (RPM)
+$rpm -Uvh pkg.rpm
+
+#Shortcuts
+----------------------------------------
+#halts the current command
+
+Ctrl+C
+
+#stops the current command, resume with fg in the foreground or bg in the background
+Ctrl+Z
+
+#log out of current session, similar to exit
+Ctrl+D
+
+#erases one word in the current line
+Ctrl+W
+
+#erases the whole line
+Ctrl+U
+
+#type to bring up a recent command
+Ctrl+R
+
+#log out of current session
+exit

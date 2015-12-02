@@ -1,0 +1,187 @@
+#Source Openrc to to use the commands
+----------------------------------------
+$cd devstack
+$source openrc admin admin
+
+#Keystone
+----------------------------------------
+
+#List all users
+$keystone user-list
+
+#List Identity service catalog
+$keystone catalog
+
+#Discover keystone endpoints
+$keystone discover
+
+#List all services in Service Catalog
+$keystone service-list
+
+#Create new user
+$keystone user-create --name <user-name> --tenant-id <tenant> --pass <pass> --email --enabled <true>
+
+#Create new tenant
+$keystone tenant-create --name <tenant-name> --description <tenant-description> --enabled <true>
+
+#Nova
+----------------------------------------
+
+#List instances, check status of instance
+$nova list
+
+#List images
+$nova image-list
+
+#List flavors
+$nova flavor-list
+
+#Boot an instance using flavor and image names (if names are unique)
+$nova boot --image IMAGE --flavor FLAVOR INSTANCE_NAME
+$nova boot --image cirros-0.3.1-x86_64-uec --flavor m1.tiny \
+  MyFirstInstance
+
+#Login to instance
+$ip netns
+$sudo ip netns exec <network namespace, from above command> ssh <user@server or use a key>
+$sudo ip netns exec qdhcp-6021a3b4-8587-4f9c-8064-0103885dfba2 ssh cirros@10.0.0.2
+
+#Show details of instance
+$nova show <instance name or id>
+$nova show MyFirstInstance
+
+#View console log of instance
+$nova console-log <instance name>
+$nova console-log MyFirstInstance
+
+#Show instance vnc url
+$nova get-vnc-console <instance name> novnc
+$nova get-vnc-console MyFirstInstance novnc
+
+#Pause, suspend, stop, rescue, resize, rebuild, reboot an instance
+$nova pause <instance name>
+$nova pause MyFirstInstance
+$nova unpause MyFirstInstance
+$nova suspend MyFirstInstance
+$nova resume MyFirstInstance
+$nova stop MyFirstInstance
+$nova start MyFirstInstance
+$nova reboot MyFirstInstance
+$nova rescue <name>
+$nova rescue <name> --rescue_image_ref RESCUE_IMAGE
+$nova resize <name> <flavor>
+$nova resize my-pem-server m1.small
+$nova resize-confirm my-pem-server1
+$nova rebuild <name> <image>
+$nova rebuild newtinny cirros-qcow2
+
+#Inject user data and files into an instance
+
+#To validate that the file was injected, use ssh to connect to the instance, and look in /var/lib/cloud for the file.
+
+$nova boot --user-data <file> <instance>
+$nova boot --user-data userdata.txt --image cirros-qcow2 \
+  --flavor m1.tiny MyUserdataInstance2
+
+#Create keypair
+#Inject a keypair into an instance and access the instance with that keypair
+
+$nova keypair-add test > test.pem
+$chmod 600 test.pem
+
+#Start an instance (boot)
+$nova boot --image cirros-0.3.0-x86_64 --flavor m1.small \
+  --key_name test MyFirstServer
+
+#Use ssh to connect to the instance
+$ip netns exec qdhcp-98f09f1e-64c4-4301-a897-5067ee6d544f \
+  ssh -i test.pem cirros@10.0.0.4
+
+#Manage security groups
+#Add rules to default security group allowing ping and SSH between instances in the default security group
+$ nova secgroup-add-group-rule default default icmp -1 -1
+$ nova secgroup-add-group-rule default default tcp 22 22
+
+#Neutron (Networking)
+----------------------------------------
+
+#Create network
+$neutron net-create <name>
+$neutron net-create my-network 
+
+#Create a Subnet
+$neutron subnet-create <network name> <cidr>
+$neutron subnet-create my-network 10.0.0.0/29
+
+#List network and subnet	
+$neutron net-list
+$neutron subnet-list
+
+#Examine details of network and subnet
+$neutron net-show <id or name of network>
+$neutron subnet-show <id or name of subnet>
+
+#Cinder	(Block Storage)
+----------------------------------------
+
+#Create	a new volume
+$cinder create <size in GB> --display-name <volume name>
+$cinder create 1 --display-name MyFirstVolume
+
+#boot an instance and attach to volume
+$nova boot --image cirros-qcow2 --flavor m1.tiny MyVolumeInstance
+
+#List volumes, notice status of volume
+$cinder list
+
+#Attach volume to instance after instance is active, and volume is available
+$nova volume-attach <instance-id> <volume-id> auto
+$nova volume-attach MyVolumeInstance /dev/vdb auto
+
+#login into instance, list storage devices
+$sudo fdisk -l
+
+#On the instance, make file system on volume
+$sudo mkfs.ext3 /dev/vdb
+
+#Create a mountpoint
+$sudo mkdir /myspace
+
+#Mount the volume at the mountpoint	
+$sudo mount /dev/vdb /myspace
+
+#Create a file on the volume
+$sudo touch /myspace/helloworld.txt
+$sudo ls /myspace
+
+#Unmount the volume
+$sudo umount /myspace
+
+#Swift (Object Store)
+----------------------------------------
+
+#Displays information for the account, container, or object
+$swift stat
+$swift stat <account>
+$swift stat <container>
+$swift stat <object>
+
+#list containers
+$swift list
+
+#Create	a container
+$swift post mycontainer
+
+#upload file to a container
+$swift upload <containder name> <file name>
+$swift upload mycontainer myfile.txt
+
+#list objects in container
+$swift list container
+
+#Download object from container
+$swift download <container name> <file name>
+
+#upload with chunks, for large file
+$swift upload -S <size> <containder name> <file name>
+$swift upload -S 64 container largeFile
