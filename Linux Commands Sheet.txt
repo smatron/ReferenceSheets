@@ -1,3 +1,9 @@
+Name:	  Linux Commands Sheet
+Author:   Sikandar
+Program:  Linux Terminal
+Date:     2015-Nov-02
+
+
 #File Commands
 ----------------------------------------
 

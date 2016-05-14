@@ -1,0 +1,92 @@
+Name:	  Apache Cordova Reference Sheet
+Author:   Sikandar
+Program:  Apache Cordova 6.1.1
+Date:     2016-Apr-27
+
+
+#Create Project
+----------------------------------------
+
+#Create a new project
+$cordova create hello com.example.hello HelloWorld
+
+#Help
+----------------------------------------
+#show help
+$ cordova help
+
+#help on a specific command
+$cordova run --help
+
+#update
+----------------------------------------
+
+#show cli info
+$cordova info
+
+#update cordova
+$sudo npm update -g cordova
+
+#install a specific version
+$sudo npm install -g cordova@3.1.0-0.2.0
+
+#show cordova version
+$cordova -v
+
+#Add Platforms
+----------------------------------------
+
+#add IOS
+$cordova platform add ios
+
+#Add Android
+$cordova platform add android
+
+#Platform
+----------------------------------------
+
+#list platforms
+$cordova platforms ls
+
+#remove platform
+$cordova platform rm android
+
+#update platform
+$cordova platform update ios
+
+#check platform
+$cordova platform check
+
+
+#Build
+----------------------------------------
+
+#build all
+$cordova build
+
+#build the selected platform
+$cordova build ios
+
+#Emulation
+----------------------------------------
+
+#run app in browser
+$cordova serve
+
+#emulate
+$cordova emulate
+
+#build and run
+$cordova run
+
+#Plugins
+----------------------------------------
+
+#search a plugin
+$cordova plugin search bar code
+
+#list plugins
+$cordova plugin ls
+
+#remove a plugin
+$ cordova plugin rm org.apache.cordova.console

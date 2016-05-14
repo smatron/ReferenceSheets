@@ -1,0 +1,209 @@
+﻿Name:	  MySQL Reference Sheet
+Author:   Sikandar
+Program:  MySQL Community Server 5.5
+Date:     2015-Dec-27
+
+
+#Login to MySQL
+----------------------------------------
+$mysql -u <username> -p <password>
+$mysql -u root -p mypass
+
+#General Commands
+----------------------------------------
+
+#Display all databases
+$show databases;
+
+#Create a Database
+$CREATE DATABASE <database-name>;
+$CREATE DATABASE mydb;
+
+#Make the database active
+$USE <database-name>;
+$USE mydb;
+
+#Show the current selected database
+$SELECT DATABASE();
+
+#Delete a Database if EXISTS
+$DROP DATABASE IF EXISTS <database-name>;
+$DROP DATABASE IF EXISTS mydb;
+
+#Delete a Database
+$DROP DATABASE <database-name>;
+
+#Show status of Database server
+$status;
+
+#Show all tables in the current database
+$show tables;
+
+$Display a table defination in the current database
+$DESCRIBE <table-name>;
+$DESCRIBE mytable;
+
+#Datatypes
+----------------------------------------
+
+#Datatypes
+-NOT NULL		: Must contain a value
+-NULL :			: Can be empty
+-DEFAULT "LA"	: Receives a default value of LA
+-UNSIGNED		: Can't contain a negative value
+-ENUM('M','F')	: Can contain either a M or F
+-TIMESTAMP		: Stores date and time in this format YYYY-MM-DD-HH-MM-SS
+-AUTO_INCREMENT : Generates a number automatically that is one greater then the previous row
+
+#Numeric Types
+-TINYINT		: A number with a value no bigger than 127 or smaller than -128
+-SMALLINT		: A number with a value no bigger than 32,768 or smaller than -32,767
+-MEDIUMINT		: Value no greater then 8,388,608
+-INT			: Contains a number without decimals
+-BIGINT			: A number with a value no bigger than 2^63 or smaller than 2^63 
+-FLOAT			: A number with decimal spaces, with a value no bigger than 1.1E38 or smaller than -1.1E38
+-DOUBLE			: A number with decimal spaces, with a value no bigger than 1.7E308 or smaller than -1.7E308
+
+#String Types
+-CHAR(2)		: Contains exactly 2 characters
+-VARCHAR(20)	: Variable Character with an expected max length of 20
+-BLOB			: Can contain 2^16 bytes of binary data
+-ENUM			: A character string that has a limited number of total values, which you must define.
+-SET			: A list of legal possible character strings. Unlike ENUM, a SET can contain multiple values in comparison to the one legal value with ENUM.
+
+#Date & Time Types
+-DATE			: A date value with the format of (YYYY-MM-DD)
+-TIME			: A time value with the format of (HH:MM:SS)
+-DATETIME		: A time value with the format of (YYYY-MM-DD HH:MM:SS)
+-TIMESTAMP		: A time value with the format of (YYYYMMDDHHMMSS)
+-YEAR			: A year value with the format of (YYYY)
+
+#Creating a table
+----------------------------------------
+$CREATE TABLE <table-name>
+(
+column_name1 data_type(size),
+column_name2 data_type(size),
+column_name3 data_type(size),
+....
+);
+
+$CREATE TABLE mytable(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
+	first_name VARCHAR(30) NOT NULL,
+	last_name VARCHAR(30),
+	email VARCHAR(30) NOT NULL,
+	state CHAR(2) NOT NULL DEFAULT "LA"
+	birth_date DATE NOT NULL,
+	date TIMESTAMP
+);
+
+#Inserting data into a table
+----------------------------------------
+$INSERT INTO <table-name> VALUES (value1,value2,value3,...);
+
+$INSERT INTO table_name (column1,column2,column3,...) VALUES (value1,value2,value3,...);
+
+$INSERT INTO mytable VALUES ("Alex", "Smith", "alex@example.com", "PA", "1997-12-27", NOW());
+
+$INSERT INTO mytable (first_name,last_name,email,state,birth_date,date) VALUES ("Alex", "Smith", "alex@example.com", "PA", "1997-12-27", NOW());
+
+#Inserting Multiple records at once
+$INSERT INTO <table-name> VALUES 
+(value1,value2,value3,...),
+(value1,value2,value3,...),
+(value1,value2,value3,...);
+
+$INSERT INTO mytable VALUES
+("James", "Mark", "james@example.com", "LA", "1995-04-27", NOW()),
+("Hanry", "Henson", "hanry@example.com", "SA", "1977-08-27", NOW()),
+("John", "Dow", "john@example.com", "LA", "1994-03-27", NOW());
+
+
+#Selecting data from a table
+----------------------------------------
+
+#Show all columns from a table
+$SELECT * FROM <table-name>;
+$SELECT * FROM mytable;
+
+#Show specific columns from a table
+$SELECT <column_name1>,<column_name2> FROM <table-name>;
+$SELECT first_name,last_name,email FROM mytable;
+
+#Show columns from multiple tables
+$SELECT * FROM <table-name-1>,<table-name-2>
+$SELECT * FROM mytable,mytable2;
+
+#Using LIMIT to limit the number of results
+$SELECT <column-name> FROM <table-name> LIMIT 5;
+$SELECT first_name, last_name FROM mytable LIMIT 5;
+
+#Getting results 5 through 10
+$SELECT <column-name>  FROM <table-name> LIMIT 5, 10;
+$SELECT first_name, last_name FROM mytable LIMIT 5, 10;
+
+#Using aliases to temporarily rename a table or a column heading.
+$SELECT <column-name> AS <alias-name> FROM <table-name>;
+$SELECT first_name AS 'FirstName' FROM mytable;
+
+#Using CONCAT to combine results
+$SELECT CONCAT(<column-name>, " ", <column-name>) AS <alias-name> FROM <table-name>;
+$SELECT CONCAT(first_name, " ", last_name) AS 'Name' FROM mytable;
+
+#Matchs any column that starts with a D, or ends with a n, % matchs any sequence of characters
+$SELECT <column-name> FROM <table-name> WHERE <column-name> LIKE 'D%' OR <column-name> LIKE '%n';
+$SELECT last_name, first_name FROM mytable WHERE first_name LIKE 'D%' OR last_name LIKE '%n';
+
+# _ matchs any single character
+$SELECT <column-name> FROM <table-name> WHERE <column-name>
+ LIKE '___y';
+$SELECT last_name, first_name FROM mytable WHERE first_name LIKE '___y';
+
+#Filtering records
+----------------------------------------
+#Compareson Operators
+# =, >, <, >=, <=, !=
+
+#Boolean Operators
+#AND, && : Returns a true value if both conditions are true	 
+#OR, || : Returns a true value if either condition is true
+#NOT, ! : Returns a true value if the operand is false
+
+#Date Functions
+#MONTH()
+#DAY()
+#YEAR()
+
+
+#Using WHERE caluse
+----------------------------------------
+$SELECT * FROM <table-name> WHERE <condition>;
+$SELECT * FROM mytable WHERE state = "LA";
+
+#Using compound logical operators
+$SELECT <column-name> FROM <table-name> WHERE MONTH(<date-column>) = 3 OR <column-name>="LA";
+$SELECT first_name, last_name, birth_date FROM mytable WHERE MONTH(birth_date) = 3 OR state="LA";
+
+$SELECT <column-name> FROM <table-name> WHERE DAY(<date-column>) >= 12 && (<column-name>="CA" || <column-name>="NV");
+$SELECT last_name, state, birth_date FROM mytable WHERE DAY(birth_date) >= 12 && (state="CA" || state="NV");
+
+#Using IS NULL or IS NOT NULL to check for NULL
+$SELECT <column-name> FROM <table-name> WHERE <column-name> IS NULL;
+$SELECT last_name FROM mytable WHERE last_name IS NULL;
+
+$SELECT <column-name> FROM <table-name> WHERE <column-name> IS NULL;
+$SELECT last_name FROM mytable WHERE last_name IS NOT NULL;
+
+#ORDER BY allows you to order results
+$SELECT <column-name> FROM <table-name> ORDER BY <column-name>;
+$SELECT first_name, last_name FROM mytable ORDER BY last_name;
+
+#To change the order use ORDER BY col_name DESC;
+$SELECT <column-name> FROM <table-name> ORDER BY <column-name> DESC;
+$SELECT first_name, last_name, state FROM mytable ORDER BY state DESC;
+
+#Using 2 ORDER BYs will order one first and then the other
+$SELECT <column-name> FROM <table-name> ORDER BY <column-name> DESC, <column-name> ASC;
+$SELECT first_name, last_name, state FROM mytable ORDER BY state DESC, last_name ASC;
+
